@@ -13,6 +13,7 @@ getPlayerHealth =(name,health)=> console.log(`${name} a ${health} vie!`);
 
 getMessage=() => console.log("partons à l'aventure!!!");
 
+///
 
 showPlayerInfos = (name, place, health) =>{
   console.log("");
@@ -27,7 +28,6 @@ console.log("");
 console.log(getMessage());
 
 showPlayerInfos(player.name, player.place, player.health)
-
 
 
 
