@@ -6,42 +6,33 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.flipCardUp = flipCardUp;
 exports.flipCardDown = flipCardDown;
-exports.createDeck = createDeck;
-exports.shufle = shufle;
+exports.shuffle = shuffle;
 exports.pop = pop;
+exports.createDeck = createDeck;
 exports.dealInitialHand = dealInitialHand;
 exports.countHand = countHand;
 const suits = new Set(['Spades', 'Clubs', 'Diamonds', 'Hearts']);
 const faces = new Set(['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']);
 const faceValues = new Map([['2', 2], ['3', 3], ['4', 4], ['5', 5], ['6', 6], ['7', 7], ['8', 8], ['9', 9], ['10', 10], ['J', 10], ['Q', 10], ['K', 10]]);
+
 const isCardFlipped = exports.isCardFlipped = new Map();
 
 function flipCardUp(card) {
   isCardFlipped.set(card, true);
 }
+
 function flipCardDown(card) {
   isCardFlipped.set(card, false);
 }
-function createDeck() {
-  const deck = new Set();
-  for (const suit of suits) {
-    for (const face of faces) {
-      deck.add(face, suit);
-    }
-  }
-  shufle(deck);
-  return deck;
-}
 
-function shufle(deck) {
+function shuffle(deck) {
   const cards = [...deck];
   let idx = cards.length;
-
   while (idx > 0) {
     idx--;
     const swap = Math.floor(Math.random() * cards.length);
     const card = cards[swap];
-    cards[swap] = card[idx];
+    cards[swap] = cards[idx];
     cards[idx] = card;
   }
   deck.clear();
@@ -55,10 +46,22 @@ function pop(deck) {
   return card;
 }
 
+function createDeck() {
+  const deck = new Set();
+  for (const suit of suits) {
+    for (const face of faces) {
+      deck.add({ face, suit });
+    }
+  }
+  shuffle(deck);
+  return deck;
+}
+
 function dealInitialHand(hand, deck) {
   hand.add(pop(deck));
   hand.add(pop(deck));
 }
+
 function countHand(hand) {
   let count = 0;
   const aces = new Set();
@@ -75,8 +78,8 @@ function countHand(hand) {
     if (count <= 11) {
       count += 10;
     }
-    return count;
   }
+  return count;
 }
 
 },{}],2:[function(require,module,exports){
@@ -129,7 +132,7 @@ function updateLabel(element, hand) {
   const scoreEl = element.querySelector('.score');
   const score = (0, _cards.countHand)(hand);
   if (score > 21) {
-    scoreEl.classList.add('PERDU!!');
+    scoreEl.classList.add('bust');
   } else if (score === 21) {
     scoreEl.classList.add('blackjack');
   }
@@ -160,20 +163,19 @@ function suitIcon(card) {
 
 function getCssClass(card) {
   return `
-  card
-  ${card.suit.toLowerCase()}
-  ${_cards.isCardFlipped.get(card) && 'flipped'}
+    card
+    ${card.suit.toLowerCase()}
+    ${_cards.isCardFlipped.get(card) && 'flipped'}
   `;
 }
 
-const cardTemplate = exports.cardTemplate = card => {
-  `<div class="${getCssClass(card)}">
-  <div class="back">\uD83D\uDC09</div>
-    <div class="front" data-suit="${suitIcon(card)}" data-face="${card.face}>
+const cardTemplate = exports.cardTemplate = card => `<div
+    class="${getCssClass(card)}">
+    <div class="back">\uD83D\uDC09</div>
+    <div class="front" data-suit="${suitIcon(card)}" data-face="${card.face}">
       ${card.face}
     </div>
   </div>`;
-};
 
 },{"./cards":1}],4:[function(require,module,exports){
 "use strict";
@@ -259,7 +261,7 @@ function stay() {
   });
 }
 
-document.querySelector('.hit-me'.addEventListener('click', hit));
-document.querySelector('.stay'.addEventListener('click', stay));
+document.querySelector('.hit-me').addEventListener('click', hit);
+document.querySelector('.stay').addEventListener('click', stay);
 
 },{"./cards":1,"./elements":2,"./templates":3,"./utils":4}]},{},[5]);

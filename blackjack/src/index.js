@@ -1,5 +1,5 @@
 import { wait } from './utils'
-import { cardtemplate } from './templates'
+import { cardTemplate } from './templates'
 import { dealerEl, playerEl, buttonsEl, updateLabel, status, render, addcard } from  './elements'
 import { createDeck, pop, countHand, dealInitialHand, flipCardDown, flipCardUp } from './cards'
 
@@ -59,5 +59,5 @@ function stay(){
   });
 }
 
-document.querySelector('.hit-me'.addEventListener('click', hit))
-document.querySelector('.stay'.addEventListener('click', stay))
+document.querySelector('.hit-me').addEventListener('click', hit)
+document.querySelector('.stay').addEventListener('click', stay)
