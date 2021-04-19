@@ -7,7 +7,7 @@ const statusEl = app.querySelector('.status')
 
 export const dealerEl = app.querySelector(".dealer")
 export const playerEl = app.querySelector(".player")
-export const buttonEl = app.querySelector(".buttons")
+export const buttonsEl = app.querySelector(".buttons")
 
 
 export function domNode(str) {
@@ -20,7 +20,7 @@ export function domNode(str) {
 export function render(element, hand) {
   element.querySelector('.hand').innerHTML = [...hand].map(cardTemplate).join('');
   element.querySelector('.score').innerHTML = countHand(hand)
-  uppdatelabel(element, hand)
+  updateLabel(element, hand)
 } 
 
 export function addcard(element, hand, card) {
@@ -30,4 +30,19 @@ export function addcard(element, hand, card) {
   element.querySelector('.hand').appendChild(cardNode);
   element.querySelector('.score').innerHTML = countHand(hand)
   setTimeout(() =>element.querySelector('.hand').classList.remove('adding'), 10)
+}
+
+export function updateLabel(element, hand) {
+  const scoreEl =  element.querySelector('.score')
+  const score = countHand(hand)
+  if (score > 21) {
+    scoreEl.classList.add('bust')
+  } else if (score === 21) {
+    scoreEl.classList.add('blackjack')
+  }
+}
+
+export function status(msg){ 
+  statusEl.classList.remove('hidden')
+  statusEl.innerHTML = msg
 }
