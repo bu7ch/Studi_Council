@@ -31,9 +31,10 @@ const spacer  = {
     return boxText
   }
 }
-const Place = function (title, description){
+const Place = function (name,title, description){
   let newLine = spacer.newline();
 
+  this.namePlace = name;
   this.title = title;
   this.description = description;
   this.items = [];
@@ -105,7 +106,7 @@ const Player = function(name, health){
   }
 
   this.getPlaceInfos = function() {
-    return this.name + ' is in ' + this.place
+    return this.name + ' is in ' + this.place.namePlace
   }
 
   this.getItemsInfos = function() {
@@ -159,21 +160,21 @@ const go = function(direction){
   return ""
 }
 
-let rampe = new Place("L'entrée", "vous accedez a une rampe inclinée.....")
+let rampe = new Place("Rampe","L'entrée", "vous accedez a une rampe inclinée.....")
 
-let corridor = new Place("Le Coridor", " Cest un long couloir qui parcours le vaisseau")
+let corridor = new Place("Corridor","Le Coridor", " Cest un long couloir qui parcours le vaisseau")
 
-let hub = new Place("Le Centre", "Un espace spacieux ou on est aime se detendre")
+let hub = new Place("Hub","Le Centre", "Un espace spacieux ou on est aime se detendre")
 
-let pit = new Place("L'espace de maintenance", " c'est ici que nous effecuons des reparations")
-const bench = new Place("L'espace de Jeu", 'Pour jouer pres du Hub')
+let pit = new Place("Pit","L'espace de maintenance", " c'est ici que nous effecuons des reparations")
+const bench = new Place("Bench","L'espace de Jeu", 'Pour jouer pres du Hub')
 
 hub.addItem('Droïd')
 corridor.addItem('Tapis')
 bench.addItem('flipper')
 pit.addItem('clé à molette')
-rampe.addExit("haut", corridor)
-corridor.addExit('continue', pit)
+rampe.addExit(corridor)
+corridor.addExit(pit)
 
 
 const player = new Player('Bob', 50)
